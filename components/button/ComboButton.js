@@ -8,10 +8,12 @@ export const ComboButton = styled("div", {
   "> *:first-child": {
     borderTopLeftRadius: "$1!important",
     borderBottomLeftRadius: "$1!important",
+    borderRight: "none!important",
   },
 
   "> *:last-child": {
     borderTopRightRadius: "$1!important",
     borderBottomRightRadius: "$1!important",
+    borderLeft: "none!important",
   },
 });
