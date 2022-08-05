@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react";
-import Head from "next/head";
+
 import { MaterialIcon } from "components/icons";
 import { ComboButton, Button } from "components/button";
 import { ButtonCircle } from "components/button-circle";
-import { styled } from "styles/stitches.config";
+import { lightTheme, styled } from "styles/stitches.config";
 
 const data = [
-  { width: 390, height: 844 },
-  { width: 768, height: 1024 },
-  { width: 1440, height: 810 },
-  { width: 1920, height: 1080 },
+  { id: 1, width: 390, height: 844 },
+  { id: 2, width: 768, height: 1024 },
+  { id: 3, width: 1440, height: 810 },
+  { id: 4, width: 1920, height: 1080 },
 ];
+
+export const Page = styled("div", {
+  background: "$background",
+  color: "$text",
+});
 
 export const FullCanvas = styled("iframe", {
   width: "100vw",
@@ -23,10 +28,10 @@ export const FullCanvas = styled("iframe", {
 
   zIndex: -1,
   opacity: 0,
-  transition: "250ms",
+  transition: "opacity 250ms",
 
   "&.active": {
-    transition: "250ms 500ms",
+    transition: "opacity 250ms 500ms",
     zIndex: 100,
     opacity: 1,
   },
@@ -38,10 +43,10 @@ export const Container = styled("div", {
 
   zIndex: -1,
   opacity: 0,
-  transition: "250ms",
+  transition: "opacity 250ms",
 
   "&.active": {
-    transition: "250ms 500ms",
+    transition: "opacity 250ms 500ms",
     zIndex: 100,
     opacity: 1,
   },
@@ -73,13 +78,27 @@ export default function Home() {
     setResponsiveList(data);
   }, []);
 
-  useEffect(() => {
-    console.log(responsiveList);
-  }, [responsiveList]);
+  //remove
+  function removeItem(id) {
+    const newResponsiveList = responsiveList.filter((item) => {
+      return item.id !== id;
+    });
 
-  function handleFavorite(id) {
+    setResponsiveList(newResponsiveList);
+  }
+
+  //rotate
+  function rotate(id) {
     const newResponsiveList = responsiveList.map((item) => {
-      return item.id === id ? { ...item, favorite: !item.favorite } : item;
+      if (item.id === id) {
+        const newWidth = item.height;
+        const newHeight = item.width;
+
+        item.width = newWidth;
+        item.height = newHeight;
+      }
+      return item;
+      // return item.id === id;
     });
 
     setResponsiveList(newResponsiveList);
@@ -87,59 +106,64 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <title>Projects Responsive Preview - Prototype</title>
-      </Head>
+      <Page>
+        <Container className={!responsiveMode ? "default" : "active"}>
+          {responsiveList.map((item, index) => {
+            const { width, height, id } = item;
+            return (
+              <Item key={index}>
+                <ItemMenu>
+                  <ButtonCircle
+                    size="small"
+                    css={{
+                      width: "auto",
+                      fontSize: "$1",
+                      fontWeight: "$medium",
+                      lineHeight: "$100",
+                      color: "$neutral200",
+                      paddingX: "$3",
+                      "&:before": { opacity: 1 },
+                    }}
+                    color="lime"
+                  >
+                    <span>
+                      {width} x {height}
+                    </span>
+                  </ButtonCircle>
 
-      <Container className={!responsiveMode ? "default" : "active"}>
-        {data.map((item, index) => {
-          const { width, height } = item;
-          return (
-            <Item key={index}>
-              <ItemMenu>
-                <ButtonCircle
-                  size="small"
-                  css={{
-                    width: "auto",
-                    fontSize: "$2",
-                    color: "$foreground700",
-                    paddingX: "$3",
-                    "&:before": { opacity: 0.5 },
-                  }}
-                  color="purple"
-                >
-                  <span>
-                    {width} x {height}
-                  </span>
-                </ButtonCircle>
+                  <ButtonCircle
+                    size="small"
+                    onClick={() => {
+                      rotate(id);
+                    }}
+                  >
+                    <MaterialIcon name="screen_rotation" />
+                  </ButtonCircle>
 
-                <ButtonCircle size="small">
-                  <MaterialIcon name="screen_rotation" />
-                </ButtonCircle>
+                  <ButtonCircle
+                    size="small"
+                    onClick={() => {
+                      removeItem(id);
+                    }}
+                  >
+                    <MaterialIcon name="close" />
+                  </ButtonCircle>
+                </ItemMenu>
+                <ItemCanvas
+                  width={width}
+                  height={height}
+                  src="https://projects.codesandbox.io/"
+                />
+              </Item>
+            );
+          })}
+        </Container>
 
-                <ButtonCircle
-                  size="small"
-                  onClick={() => {
-                    handleFavorite(item.id);
-                  }}
-                >
-                  <MaterialIcon name="close" />
-                </ButtonCircle>
-              </ItemMenu>
-              <ItemCanvas
-                width={width}
-                height={height}
-                src="https://projects.codesandbox.io/"
-              />
-            </Item>
-          );
-        })}
-      </Container>
-
-      <FullCanvas
-        className={responsiveMode ? "default" : "active"}
-        src="https://projects.codesandbox.io/"
-      />
+        <FullCanvas
+          className={responsiveMode ? "default" : "active"}
+          src="https://projects.codesandbox.io/"
+        />
+      </Page>
 
       {/* nav */}
       <ComboButton

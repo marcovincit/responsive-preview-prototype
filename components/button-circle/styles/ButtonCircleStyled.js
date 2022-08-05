@@ -15,6 +15,8 @@ export const ButtonCircleStyled = styled("div", {
   backgroundColor: "transparent",
   transition: "color 300ms",
 
+  cursor: "pointer",
+
   "&::before": {
     content: "",
     display: "block",

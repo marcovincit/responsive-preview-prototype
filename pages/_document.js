@@ -20,6 +20,8 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
           <link rel="icon" href="/favicon.svg" />
+
+          <title>Projects Responsive Preview - Prototype</title>
         </Head>
         <body>
           <Main />
