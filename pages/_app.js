@@ -1,7 +1,9 @@
-import '../styles/globals.css'
+import { globalStyles } from "styles/globalStyles.js";
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  // stitches
+  globalStyles();
+  return <Component {...pageProps} />;
 }
 
-export default MyApp
+export default MyApp;
