@@ -29,14 +29,17 @@ export const FullCanvas = styled("iframe", {
   top: 0,
   left: 0,
 
-  zIndex: -1,
+  zIndex: 100,
   opacity: 0,
   transition: "opacity 250ms",
+  pointerEvents: "none",
 
   "&.active": {
     transition: "opacity 250ms 500ms",
-    zIndex: 100,
+    zIndex: 0,
     opacity: 1,
+
+    pointerEvents: "initial",
   },
 });
 
@@ -46,14 +49,16 @@ export const Container = styled("div", {
   minWidth: "100vw",
   minHeight: "100vh",
 
-  zIndex: -1,
+  zIndex: 0,
   opacity: 0,
   transition: "opacity 250ms",
+  pointerEvents: "none",
 
   "&.active": {
     transition: "opacity 250ms 500ms",
     zIndex: 100,
     opacity: 1,
+    pointerEvents: "initial",
   },
 });
 
@@ -139,6 +144,7 @@ export const Input = styled("input", {
 
 export default function Home() {
   const url = "https://www.lakgallery.com/";
+  // const url = "https://www.lakgallery.com/";
   // const url = "https://www.russiklenner.de/";
   const [responsiveMode, setResponsiveMode] = useState(false);
   const [responsiveList, setResponsiveList] = useState([]);
