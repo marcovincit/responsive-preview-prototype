@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import { Body } from "components/typography";
 import { MaterialIcon } from "components/icons";
 import { ComboButton, Button } from "components/button";
 import { ButtonCircle } from "components/button-circle";
@@ -13,6 +13,8 @@ const data = [
 ];
 
 export const Page = styled("div", {
+  minWidth: "100vw",
+  minHeight: "100vh",
   background: "$background",
   color: "$text",
 });
@@ -40,6 +42,8 @@ export const FullCanvas = styled("iframe", {
 export const Container = styled("div", {
   display: "flex",
   flexDirection: "row",
+  minWidth: "100vw",
+  minHeight: "100vh",
 
   zIndex: -1,
   opacity: 0,
@@ -69,10 +73,74 @@ export const ItemCanvas = styled("iframe", {
   border: 0,
 });
 
-export default function Home() {
-  const [responsiveMode, setResponsiveMode] = useState(false);
+export const Dialog = styled("dialog", {
+  position: "fixed",
+  width: "100%",
+  height: "100%",
+  top: 0,
+  left: 0,
+  zIndex: 9999,
 
+  background: "rgba(0, 0, 0, 0.75)",
+
+  textAlign: "center",
+});
+
+export const Form = styled("form", {
+  display: "flex",
+  flexDirection: "column",
+  gap: "$2",
+
+  position: "fixed",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+
+  margin: 0,
+
+  padding: "$4",
+
+  width: 300,
+
+  background: "$neutral700",
+  color: "$text",
+  borderRadius: "$2",
+});
+
+export const Input = styled("input", {
+  backgroundColor: "$background",
+  border: "solid 1px $neutral600",
+  borderRadius: "$2",
+  lineHeight: "$100",
+  outline: "none",
+  color: "$text",
+  fontSize: "$3",
+  padding: "10px",
+  gap: "5px",
+  borderRadius: "5px",
+  // textAlign: "center",
+
+  appearance: "textfield",
+
+  "&::-webkit-inner-spin-button": {
+    appearance: "none",
+  },
+
+  "&::-webkit-outer-spin-button": {
+    appearance: "none",
+  },
+
+  "&:focus": {
+    border: "solid 1px $neutral400",
+  },
+});
+
+export default function Home() {
+  const url = "https://www.marcovincit.com/";
+  const [responsiveMode, setResponsiveMode] = useState(true);
   const [responsiveList, setResponsiveList] = useState([]);
+
+  const [dialog, setDialog] = useState(false);
 
   useEffect(() => {
     setResponsiveList(data);
@@ -85,6 +153,37 @@ export default function Home() {
     });
 
     setResponsiveList(newResponsiveList);
+  }
+
+  //input state
+
+  function useInput(opts) {
+    const [value, setValue] = React.useState("");
+    const input = (
+      <Input
+        value={value}
+        type="number"
+        onChange={(e) => setValue(e.target.value)}
+        {...opts}
+      />
+    );
+
+    return [value, input];
+  }
+
+  const [newItemWidth, newItemWidthInput] = useInput({ placeholder: "Width" });
+  const [newItemHeight, newItemHeightInput] = useInput({
+    placeholder: "Height",
+  });
+
+  // addItem
+  function addItem(id) {
+    setDialog(false);
+    setResponsiveList([
+      ...responsiveList,
+      { width: newItemWidth, height: newItemHeight },
+    ]);
+    return false;
   }
 
   //rotate
@@ -149,19 +248,50 @@ export default function Home() {
                     <MaterialIcon name="close" />
                   </ButtonCircle>
                 </ItemMenu>
-                <ItemCanvas
-                  width={width}
-                  height={height}
-                  src="https://projects.codesandbox.io/"
-                />
+                <ItemCanvas width={width} height={height} src={url} />
               </Item>
             );
           })}
+
+          {/* add */}
+
+          <Item
+            css={{
+              width: "100%",
+              alignContent: "center",
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+            }}
+          >
+            <ButtonCircle size="medium" onClick={() => setDialog(true)}>
+              <MaterialIcon name="add" />
+            </ButtonCircle>
+            <Body size={4} css={{ width: 600 }} onClick={() => setDialog(true)}>
+              Add responsive view
+            </Body>
+
+            {/* Dialog */}
+            <Dialog open={dialog}>
+              <Form method="dialog">
+                {/* input */}
+                {newItemWidthInput}
+                {newItemHeightInput}
+                {/* buttons */}
+                <Button type="submit" onClick={() => addItem()}>
+                  Confirm
+                </Button>
+                <Button id="cancel" text onClick={() => setDialog(false)}>
+                  Cancel
+                </Button>{" "}
+              </Form>
+            </Dialog>
+          </Item>
         </Container>
 
         <FullCanvas
           className={responsiveMode ? "default" : "active"}
-          src="https://projects.codesandbox.io/"
+          src={url}
         />
       </Page>
 
@@ -171,7 +301,7 @@ export default function Home() {
           position: "fixed",
           left: "$4",
           bottom: "$4",
-          zIndex: 9999,
+          zIndex: 8888,
         }}
       >
         <Button size="large">
