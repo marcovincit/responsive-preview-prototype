@@ -274,6 +274,7 @@ export default function Home() {
               alignItems: "center",
               justifyContent: "center",
               textAlign: "center",
+              paddingRight: "$12",
             }}
           >
             <ButtonCircle size="medium" onClick={() => setDialog(true)}>
