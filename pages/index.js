@@ -23,6 +23,7 @@ export const FullCanvas = styled("iframe", {
   width: "100vw",
   height: "100vh",
   border: 0,
+  background: "white",
 
   position: "fixed",
   top: 0,
@@ -71,6 +72,7 @@ export const ItemMenu = styled("div", {
 
 export const ItemCanvas = styled("iframe", {
   border: 0,
+  background: "white",
 });
 
 export const Dialog = styled("dialog", {
@@ -136,7 +138,8 @@ export const Input = styled("input", {
 });
 
 export default function Home() {
-  const url = "https://www.marcovincit.com/";
+  const url = "https://www.lakgallery.com/";
+  // const url = "https://www.russiklenner.de/";
   const [responsiveMode, setResponsiveMode] = useState(false);
   const [responsiveList, setResponsiveList] = useState([]);
 
