@@ -137,7 +137,7 @@ export const Input = styled("input", {
 
 export default function Home() {
   const url = "https://www.marcovincit.com/";
-  const [responsiveMode, setResponsiveMode] = useState(true);
+  const [responsiveMode, setResponsiveMode] = useState(false);
   const [responsiveList, setResponsiveList] = useState([]);
 
   const [dialog, setDialog] = useState(false);
