@@ -57,7 +57,10 @@ export const ButtonCircleStyled = styled("div", {
         },
 
         "&:hover::before": {
-          backgroundColor: "$neutral300",
+          backgroundColor: "$neutral100",
+        },
+        "&:hover::focus": {
+          backgroundColor: "$neutral800",
         },
       },
 
