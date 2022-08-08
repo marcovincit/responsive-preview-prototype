@@ -158,13 +158,14 @@ export default function Home() {
   //input state
 
   function useInput(opts) {
-    const [value, setValue] = React.useState("");
+    const [value, setValue] = useState("");
     const input = (
       <Input
         value={value}
         type="number"
         onChange={(e) => setValue(e.target.value)}
         {...opts}
+        required
       />
     );
 
@@ -178,10 +179,18 @@ export default function Home() {
 
   // addItem
   function addItem(id) {
+    if (newItemWidth === "" || newItemHeight === "") {
+      setDialog(true);
+      return;
+    }
     setDialog(false);
     setResponsiveList([
       ...responsiveList,
-      { width: newItemWidth, height: newItemHeight },
+      {
+        width: newItemWidth,
+        height: newItemHeight,
+        id: responsiveList.length + 1,
+      },
     ]);
     return false;
   }
