@@ -4,6 +4,7 @@ import { MaterialIcon } from "components/icons";
 import { ComboButton, Button } from "components/button";
 import { ButtonCircle } from "components/button-circle";
 import { lightTheme, styled } from "styles/stitches.config";
+import { useRouter } from "next/router";
 
 const data = [
   { id: 1, width: 390, height: 844 },
@@ -143,16 +144,22 @@ export const Input = styled("input", {
 });
 
 export default function Home() {
-  const url = "https://www.lakgallery.com/";
+  const router = useRouter();
+
   // const url = "https://www.lakgallery.com/";
   // const url = "https://www.russiklenner.de/";
-  const [responsiveMode, setResponsiveMode] = useState(false);
+
+  const [url, setUrl] = useState("https://www.lakgallery.com/");
+  const [responsiveMode, setResponsiveMode] = useState(true);
   const [responsiveList, setResponsiveList] = useState([]);
 
   const [dialog, setDialog] = useState(false);
 
   useEffect(() => {
     setResponsiveList(data);
+    setUrl(router.asPath.slice(2));
+
+    console.log(router.pathname);
   }, []);
 
   //remove

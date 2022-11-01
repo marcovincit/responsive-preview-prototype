@@ -66,6 +66,6 @@ export const colors = {
   green100: colorPalette.green[100],
 
   // default
-  background: "$neutral800",
+  background: "gray",
   text: "$foreground200",
 };
