@@ -6,6 +6,7 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          <meta name="robots" content="noindex" />
           <style
             id="stitches"
             dangerouslySetInnerHTML={{ __html: getCssText() }}
